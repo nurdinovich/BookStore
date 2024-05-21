@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import fetchAllCart, { addBookToCart, deleteCartItem, removeFromCart } from '../../store/reducers/cartCreate'
-import { Button, Table } from 'react-bootstrap'
+import { Alert, Button, Spinner, Table } from 'react-bootstrap'
 
 const Cart = () => {
   const dispatch = useDispatch()
@@ -39,21 +39,29 @@ const onDelete = (id)=>{
       </tr>
     )
   }
-  return <div>
-    <h2>yor order</h2>
+  return   <div>
+  <h2>Your order</h2>
+  {isLoadingCart ? (
+    <Spinner animation="border" role="status">
+      <span className="sr-only">Loading...</span>
+    </Spinner>
+  ) : cartError ? (
+    <Alert variant="danger">{cartError}</Alert>
+  ) : (
     <Table>
       <thead>
         <tr>
           <th>#</th>
           <th>Item</th>
-          <th>count</th>
-          <th>price</th>
-          <th>action</th>
+          <th>Count</th>
+          <th>Price</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>{cart?.map(renderItems)}</tbody>
     </Table>
-  </div>
+  )}
+</div>
 
 }
 
